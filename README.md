@@ -1,6 +1,6 @@
-# Document AI Question Answering
+# GPT Powered AI Document Chatbot Creator
 
-Document AI Question Answering is a web application that allows users to upload PDF and other document files, processes the documents' content, and provides answers to users' questions based on the information from the uploaded documents. The application uses OpenAI's GPT-3.5-turbo for processing questions and Text-Embedding-ADA-002 for embedding text, as well as Pinecone for vector similarity search.
+GPT Powered AI Document Chatbot Creator is a web application that allows users to upload PDF and other document files, processes the documents' content, and provides answers to users' questions based on the information from the uploaded documents. The application uses OpenAI's GPT-3.5-turbo for processing questions and Text-Embedding-ADA-002 for embedding text, as well as Pinecone for vector similarity search.
 
 ## Overview
 This project is designed to provide an easy-to-use interface for users to upload and manage their documents while getting accurate and relevant answers to their questions based on the content of the uploaded documents. The application leverages cutting-edge AI technology to provide a seamless and efficient user experience.
