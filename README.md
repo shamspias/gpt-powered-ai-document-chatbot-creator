@@ -138,6 +138,59 @@ python manage.py runserver
 ```
 Visit http://localhost:8000/ in your browser to access the application.
 
+
+## API Endpoints
+
+The following API endpoints are available in the GPT-Powered-AI-Document-Chatbot-Creator application:
+
+1. User registration
+
+    - Endpoint: `/api/auth/register/`
+    - Method: `POST`
+    - Payload: `{ "username": "your_username", "password": "your_password", "email": "your_email@example.com" }`
+    - Description: Register a new user account.
+
+2. User login
+
+    - Endpoint: `/api/auth/login/`
+    - Method: `POST`
+    - Payload: `{ "username": "your_username", "password": "your_password" }`
+    - Description: Authenticate an existing user and return a JSON Web Token (JWT).
+
+3. Upload a document
+
+    - Endpoint: `/api/documents/`
+    - Method: `POST`
+    - Payload: `{"title": "document_title", "file": file_upload}`
+    - Description: Upload a document file (PDF or other supported formats) for processing and indexing.
+
+4. List all documents
+
+    - Endpoint: `/api/documents/`
+    - Method: `GET`
+    - Description: Retrieve a list of all uploaded documents for the authenticated user.
+   
+5. Retrieve a document
+
+    - Endpoint: `/api/documents/<document_id>/`
+    - Method: `GET`
+    - Description: Retrieve a specific document by ID.
+
+6. Delete a document
+
+    - Endpoint: `/api/documents/<document_id>/`
+    - Method: `DELETE`
+    - Description: Delete a specific document by ID.
+   
+7. Ask a question
+
+   - Endpoint: `/api/questions/`
+   - Method: `POST`
+   - Payload: `{ "question": "your_question" }`
+   - Description: Submit a question and receive an answer based on the content of the uploaded documents.
+
+Please note that the actual endpoints in your project might vary depending on the specific implementation. Refer to the project's source code and documentation for more detailed information on the available API endpoints and their usage.
+
 ## Usage
 1. Register a new user account or log in with an existing account.
 2. Upload PDF or other supported document files using the provided interface.
