@@ -1,0 +1,34 @@
+document_ai_qa/
+├── document_ai_qa/
+│   ├── settings/
+│   │   ├── __init__.py
+│   │   ├── common.py
+│   │   ├── local.py
+│   │   ├── staging.py
+│   │   └── production.py
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── urls.py
+│   └── wsgi.py
+├── question_answering/
+│   ├── migrations/
+│   │   └── __init__.py
+│   ├── templates/
+│   │   └── index.html
+│   ├── static/
+│   │   └── js/
+│   │       └── main.js
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── tasks.py
+│   ├── views.py
+|   ├── urls.py
+│   └── utils.py
+├── manage.py
+├── requirements.txt
+|── .gitignore
+|── example.env
+|── README.md
+└── .env

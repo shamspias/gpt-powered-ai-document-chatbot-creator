@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyc
+*.egg-info/
+dist/
+*.egg
+*.log
+
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+media/
+.env
+*.mo
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Virtualenv
+venv/
+ENV/
+
+# Node.js
+node_modules/
+
+# IDEs and text editors
+*.sublime*
+*.swp
+*.swo
+*.swn
+*.bak
+*.tmproj
+*.idea/
+*.vscode/
+*.pycharm*/
+*.project
+*.pydevproject
+*.komodoproject
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Other
+*.sql
+*.sqlite3
