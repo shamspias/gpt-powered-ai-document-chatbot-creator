@@ -25,12 +25,20 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+    'rest_framework_simplejwt.token_blacklist',
+
     'rest_framework',
     'django_filters',
     'drf_yasg',  # another way to swagger
     'corsheaders',  # Cross Origin
     'easy_thumbnails',  # image lib
-
     'django_celery_results',  # Store Celery Result and cache
 ]
 
@@ -212,7 +220,7 @@ LOGGING = {
 AUTH_USER_MODEL = os.getenv('AUTH_USER_MODEL', 'authentication.User')
 
 AUTHENTICATION_BACKENDS = (
-    # and maybe some others ...
+    'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
@@ -243,11 +251,35 @@ REST_FRAMEWORK = {
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
 }
 
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+ACCOUNT_EMAIL_REQUIRED = True
+
+ACCOUNT_UNIQUE_EMAIL = True
+
+ACCOUNT_USERNAME_REQUIRED = False
+
+ACCOUNT_LOGOUT_ON_GET = True
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'authentication.serializers.CustomRegisterSerializer',
+}
+
+REST_AUTH_SERIALIZERS = {
+    'TOKEN_SERIALIZER': 'rest_framework_simplejwt.serializers.TokenObtainPairSerializer',
+    'LOGIN_SERIALIZER': 'dj_rest_auth.serializers.LoginSerializer',
+    'USER_DETAILS_SERIALIZER': 'authentication.serializers.UserSerializer',
+}
+
+REST_USE_JWT = True
+
 # JWT configuration
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=100),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'ROTATE_REFRESH_TOKENS': False,
+    'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': True,
     'ALGORITHM': 'HS256',
@@ -255,16 +287,20 @@ SIMPLE_JWT = {
     'VERIFYING_KEY': None,
     'AUDIENCE': None,
     'ISSUER': None,
-    'AUTH_HEADER_TYPES': ('Bearer',),
-    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
-    'USER_ID_FIELD': 'id',
-    'USER_ID_CLAIM': 'user_id',
+
+    'AUTH_HEADER_TYPES': ('JWT',),
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',
-    'JTI_CLAIM': 'jti',
+
     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+
+    # Token blacklist settings
+    'TOKEN_BLACKLIST_ENABLED': True,
+    'TOKEN_BLACKLIST_DATABASE': 'rest_framework_simplejwt.token_blacklist.models.BlacklistedToken',
+    'TOKEN_EXPIRATION_DELTA': timedelta(minutes=5),
+    'ROTATE_REFRESH_TOKENS_ON_LOGIN': True,
 }
 
 # summernote configuration
