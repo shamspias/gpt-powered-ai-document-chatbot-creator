@@ -17,4 +17,6 @@ class DocumentUploadView(generics.CreateAPIView):
     def perform_create(self, serializer):
         source_type = get_source_type(self.request.data['file'])
         instance = serializer.save(user=self.request.user, source_type=source_type)
-        process_file.delay(instance.id, instance.file.path, source_type)
+        task = process_file.apply_async(args=[instance.id, instance.file.path, source_type])
+        response = task.get()
+        print(response)
