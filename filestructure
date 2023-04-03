@@ -1,4 +1,4 @@
-document_ai_qa/
+gpt-powered-ai-document-chatbot-creator/
 ├── document_ai_qa/
 │   ├── settings/
 │   │   ├── __init__.py
