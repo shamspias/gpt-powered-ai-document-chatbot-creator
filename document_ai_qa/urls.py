@@ -24,4 +24,6 @@ urlpatterns = [
                   path('question_answering/', include('question_answering.urls')),
                   path('chatbot_management/', include('chatbot_management.urls')),
                   path('auth/', include('authentication.urls'), name='auth'),
+                  path('document_processing/', include('document_processing.urls')),
+                  path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
