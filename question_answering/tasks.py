@@ -1,6 +1,10 @@
 from celery import shared_task
-from .models import Chatbot, Conversation
+from django.contrib.auth import get_user_model
+from chatbot_management.models import Chatbot
+from .models import Conversation
 from .utils import fetch_answer_from_gpt3, save_conversation
+
+User = get_user_model()
 
 
 @shared_task
