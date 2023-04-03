@@ -1,4 +1,17 @@
 gpt-powered-ai-document-chatbot-creator/
+|── authentification/
+│   ├── migrations/
+│   │   └── __init__.py
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── tasks.py
+│   ├── views.py
+|   ├── urls.py
+│   └── tests.py
+│   └── serializers.py
+|
 ├── document_ai_qa/
 │   ├── settings/
 │   │   ├── __init__.py
