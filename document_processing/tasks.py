@@ -3,10 +3,9 @@ from django.conf import settings
 import pinecone
 from celery import shared_task
 from .utils import extract_text_from_file
-from openai_embedding import embed_text
+from .openai_embedding import embed_text
 
-pinecone.deinit()
-pinecone.init(api_key=settings.PINECONE_API_KEY)
+pinecone.init(api_key=settings.PINECONE_API_KEY, environment=settings.PINECONE_ENVIRONMENT)
 pinecone.create_index(name=settings.PINECONE_INDEX_NAME, dimension=1536, metric="cosine")
 
 
