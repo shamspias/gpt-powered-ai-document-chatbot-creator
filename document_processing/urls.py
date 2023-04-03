@@ -7,4 +7,5 @@ urlpatterns = [
     path('documents/', views.DocumentListCreateView.as_view(), name='document_list_create'),
     path('documents/<int:pk>/', views.DocumentRetrieveUpdateDestroyView.as_view(),
          name='document_retrieve_update_destroy'),
+    path('upload/', views.DocumentUploadView.as_view(), name='document_upload'),
 ]
