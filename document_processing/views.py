@@ -1,31 +1,22 @@
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser
 from .models import Document
 from .serializers import DocumentSerializer
-from .tasks import process_document
+from .tasks import process_file
+from .utils import get_source_type
 
 
-class DocumentListCreateView(generics.ListCreateAPIView):
+class DocumentUploadView(generics.CreateAPIView):
     """
-    API view for listing and creating documents.
+    View for uploading a document (PDF, CSV, or URL).
     """
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
-    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser]
 
     def perform_create(self, serializer):
-        document_type = self.request.data.get('document_type')
-        file = self.request.FILES.get('file')
-        url = self.request.data.get('url')
-
-        document_id = process_document.delay(self.request.user.id, document_type, file, url)
-        serializer.save(user=self.request.user, document_type=document_type, pinecone_index_id=document_id)
-
-
-class DocumentRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
-    """
-    API view for retrieving, updating, and deleting documents.
-    """
-    queryset = Document.objects.all()
-    serializer_class = DocumentSerializer
-    permission_classes = [IsAuthenticated]
+        source_type = get_source_type(self.request.data['file'])
+        instance = serializer.save(user=self.request.user, source_type=source_type)
+        task = process_file.apply_async(args=[instance.id, instance.file.path, source_type])
+        response = task.get()
+        print(response)
