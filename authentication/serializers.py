@@ -1,65 +1,66 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
-from rest_auth.registration.serializers import RegisterSerializer
-from allauth.account.adapter import get_adapter
-from allauth.account.utils import setup_user_email
-
-User = get_user_model()
+from .models import UserProfile
 
 
 class UserSerializer(serializers.ModelSerializer):
     """
-    A serializer for the User model.
+    User model w/o password
     """
 
     class Meta:
         model = User
-        fields = ['id', 'email', 'username', 'first_name', 'last_name', 'profile_picture']
-        read_only_fields = ['id', 'email']
+        fields = ('id', 'username', 'email', 'first_name', 'last_name')
 
 
-class CustomRegisterSerializer(RegisterSerializer):
+class UserProfileSerializer(serializers.ModelSerializer):
     """
-    A custom serializer that extends the default RegisterSerializer to include
-    additional fields.
+    User Profile model
     """
-    first_name = serializers.CharField(required=True)
-    last_name = serializers.CharField(required=True)
+    user = UserSerializer()
 
-    def get_cleaned_data(self):
-        super().get_cleaned_data()
-        return {
-            'first_name': self.validated_data.get('first_name', ''),
-            'last_name': self.validated_data.get('last_name', ''),
-            'email': self.validated_data.get('email', ''),
-            'password1': self.validated_data.get('password1', ''),
-        }
+    class Meta:
+        model = UserProfile
+        fields = ('user', 'subscription_type')
 
-    def save(self, request):
-        adapter = get_adapter()
-        user = adapter.new_user(request)
-        self.cleaned_data = self.get_cleaned_data()
-        user.first_name = self.cleaned_data.get('first_name')
-        user.last_name = self.cleaned_data.get('last_name')
-        user.save()
-        setup_user_email(request, user, [])
-        adapter.save_user(request, user, self)
+
+class RegisterSerializer(serializers.ModelSerializer):
+    """
+    Serializer for user registration.
+    """
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password')
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password']
+        )
         return user
 
 
-class CustomSocialLoginSerializer(serializers.Serializer):
+class TokenObtainPairSerializer(serializers.Serializer):
     """
-    A custom serializer that extends the default SocialLoginSerializer to include
-    additional fields.
+    Serializer for Token obtain pair view.
     """
-    access_token = serializers.CharField(required=True, write_only=True)
-    email = serializers.EmailField(required=False, allow_null=True, allow_blank=True)
-    first_name = serializers.CharField(required=True)
-    last_name = serializers.CharField(required=True)
+    code = serializers.CharField()
 
-    def validate(self, attrs):
-        attrs = super().validate(attrs)
-        attrs['email'] = attrs.get('email') or self.user.email or ''
-        attrs['first_name'] = attrs.get('first_name')
-        attrs['last_name'] = attrs.get('last_name')
-        return attrs
+
+class ResetPasswordEmailRequestSerializer(serializers.Serializer):
+    """
+    Serializer for requesting a password reset e-mail.
+    """
+    email = serializers.EmailField()
+
+
+class SetNewPasswordSerializer(serializers.Serializer):
+    """
+    Serializer for requesting a password reset e-mail.
+    """
+    password = serializers.CharField(write_only=True)
+    token = serializers.CharField(write_only=True)
+    uidb64 = serializers.CharField(write_only=True)

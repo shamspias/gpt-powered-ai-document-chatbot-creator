@@ -26,12 +26,7 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
 
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'dj_rest_auth',
-    'dj_rest_auth.registration',
+    'social_django',  # Social Auth
     'rest_framework_simplejwt.token_blacklist',
 
     'rest_framework',
@@ -220,9 +215,13 @@ LOGGING = {
 AUTH_USER_MODEL = os.getenv('AUTH_USER_MODEL', 'authentication.User')
 
 AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
 )
+
+# Add the following to configure Google OAuth2
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('GOOGLE_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('GOOGLE_SECRET')
 
 # Django Rest Framework
 REST_FRAMEWORK = {
