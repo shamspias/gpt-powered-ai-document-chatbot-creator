@@ -2,10 +2,13 @@ from django.contrib import admin
 from .models import Document
 
 
-@admin.register(Document)
 class DocumentAdmin(admin.ModelAdmin):
     """
-    Document model admin configuration.
+    Document admin class.
     """
-    list_display = ('user', 'document_type', 'pinecone_index_id')
-    search_fields = ('user__username', 'document_type', 'pinecone_index_id')
+    list_display = ('id', 'user', 'source_type', 'content', 'pinecone_index_id')
+    list_filter = ('source_type',)
+    search_fields = ('user__username', 'pinecone_index_id')
+
+
+admin.site.register(Document, DocumentAdmin)
