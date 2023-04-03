@@ -1,27 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
+from chatbot_management.models import Chatbot
 
 
-class Document(models.Model):
+class Conversation(models.Model):
     """
-    A document uploaded by a user.
+    Conversation model representing a chatbot conversation.
     """
+    chatbot = models.ForeignKey(Chatbot, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=255)
-    file = models.FileField(upload_to='documents/')
-    extracted_text = models.TextField()
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    text = models.TextField()
+    response = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title
-
-
-class Embedding(models.Model):
-    """
-    A document embedding.
-    """
-    document = models.ForeignKey(Document, on_delete=models.CASCADE)
-    vector = models.JSONField()
-
-    def __str__(self):
-        return f"Embedding for {self.document.title}"
+        return f"{self.user.username} - {self.chatbot.name}"

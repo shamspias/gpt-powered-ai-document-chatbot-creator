@@ -40,6 +40,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     'authentication.apps.AuthenticationConfig',
     'question_answering.apps.QuestionAnsweringConfig',
+    'chatbot_management.apps.ChatbotManagementConfig',
 
 ]
 
