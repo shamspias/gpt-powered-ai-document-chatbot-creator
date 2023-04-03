@@ -1,11 +1,6 @@
 from django.urls import path
-from . import views
-
-app_name = 'document_processing'
+from .views import DocumentUploadView
 
 urlpatterns = [
-    path('documents/', views.DocumentListCreateView.as_view(), name='document_list_create'),
-    path('documents/<int:pk>/', views.DocumentRetrieveUpdateDestroyView.as_view(),
-         name='document_retrieve_update_destroy'),
-    path('upload/', views.DocumentUploadView.as_view(), name='document_upload'),
+    path('upload/', DocumentUploadView.as_view(), name='document_upload'),
 ]

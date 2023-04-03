@@ -1,23 +1,36 @@
-import PyPDF2
+import requests
+from io import BytesIO
+from PyPDF2 import PdfFileReader
+import pandas as pd
+from bs4 import BeautifulSoup
 
 
-def convert_pdf_to_text(file_path):
+def get_source_type(file):
+    extension = file.name.split('.')[-1].lower()
+    return extension
+
+
+def extract_text_from_file(file, source_type):
     """
-    Convert a PDF file to text.
-    :param file_path: Path to the PDF file
-    :return:  Text extracted from the PDF file
+    Extract text from a file or URL.
+    :param file:  File or URL
+    :param source_type: File type
+    :return:  Extracted text
     """
-    with open(file_path, 'rb') as file:
-        reader = PyPDF2.PdfFileReader(file)
-        text = ''
-        for page_num in range(reader.numPages):
-            text += reader.getPage(page_num).extractText()
+    if source_type in ['pdf']:
+        with open(file, 'rb') as f:
+            reader = PdfFileReader(f)
+            text = " ".join([reader.getPage(i).extractText() for i in range(reader.numPages)])
+    elif source_type in ['csv', 'xls', 'xlsx']:
+        df = pd.read_csv(file) if source_type == 'csv' else pd.read_excel(file)
+        text = " ".join(df.to_string(index=False))
+    elif source_type == 'json':
+        df = pd.read_json(file)
+        text = " ".join(df.to_string(index=False))
+    elif source_type == 'url':
+        response = requests.get(file)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        text = soup.get_text()
+    else:
+        raise ValueError('Unsupported source type')
     return text
-
-
-def scrape_website_text(url):
-    """
-    Scrape text from a given website URL.
-    """
-    # Replace this with your actual web scraping logic
-    return "Sample text scraped from the website"

@@ -1,28 +1,32 @@
 from celery import shared_task
-from django.contrib.auth.models import User
 from .models import Document
-from .utils import convert_pdf_to_text, scrape_website_text
+from .utils import extract_text_from_file
+import pinecone
+import os
+from openai_embedding import embed_text
+
+pinecone.deinit()
+pinecone.init(api_key=os.environ.get("PINECONE_API_KEY"))
 
 
 @shared_task
-def process_document(user_id, document_type, file=None, url=None):
-    """
-    Process the uploaded document (PDF or DOC) or URL and store the content in the Document model.
-    """
-    user = User.objects.get(id=user_id)
+def process_file(document_id, file, source_type):
+    document = Document.objects.get(id=document_id)
 
-    if document_type in ['PDF', 'DOC']:
-        content = convert_pdf_to_text(file)
-    elif document_type == 'URL':
-        content = scrape_website_text(url)
-    else:
-        raise ValueError("Invalid document type")
+    # Extract text from the file or URL
+    extracted_text = extract_text_from_file(file, source_type)
 
-    document = Document(user=user, document_type=document_type, content=content)
+    # Embed the text using Text-Embedding-ADA-002
+    embedded_text = embed_text(extracted_text)
+
+    # Save the embedded text to Pinecone
+    pinecone_index_id = f"document-{document_id}"
+    pinecone_index = pinecone.Index(index_name=pinecone_index_id)
+    pinecone_index.upsert(1, [embedded_text])
+
+    # Update the document with the Pinecone index ID
+    document.pinecone_index_id = pinecone_index_id
     document.save()
 
-    # Add the text embedding and Pinecone index ID logic here
-    # document.pinecone_index_id = <your_pinecone_index_id>
-    # document.save()
-
-    return document.id
+    # Deinitialize Pinecone to release resources
+    pinecone.deinit()

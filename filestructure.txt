@@ -47,6 +47,8 @@ gpt-powered-ai-document-chatbot-creator/
 │   ├── tasks.py
 │   ├── urls.py
 │   ├── utils.py
+|   ├── serializers.py
+|   ├── openai_embedding.py
 │   └── tests.py
 │
 ├── question_answering/

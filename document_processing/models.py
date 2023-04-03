@@ -9,7 +9,7 @@ class Document(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     source_type = models.CharField(max_length=10,
                                    choices=[("PDF", "PDF"), ("CSV", "CSV"), ("JSON", "JSON"), ("XLS", "XLS"),
-                                            ("DOCX", "DOCX"), ("URL", "URL")])
+                                            ("URL", "URL")])
     content = models.TextField()
     pinecone_index_id = models.CharField(max_length=200)
 
