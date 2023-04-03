@@ -41,6 +41,8 @@ LOCAL_APPS = [
     'authentication.apps.AuthenticationConfig',
     'question_answering.apps.QuestionAnsweringConfig',
     'chatbot_management.apps.ChatbotManagementConfig',
+    'document_processing.apps.DocumentProcessingConfig',
+    'payments.apps.PaymentsConfig',
 
 ]
 
