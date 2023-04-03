@@ -1,28 +1,30 @@
 gpt-powered-ai-document-chatbot-creator/
-|── authentification/
+│
+├── authentication/
 │   ├── migrations/
 │   │   └── __init__.py
 │   ├── __init__.py
 │   ├── admin.py
 │   ├── apps.py
 │   ├── models.py
-│   ├── tasks.py
 │   ├── views.py
-|   ├── urls.py
-│   └── tests.py
-│   └── serializers.py
-|
-├── document_ai_qa/
-│   ├── settings/
-│   │   ├── __init__.py
-│   │   ├── common.py
-│   │   ├── local.py
-│   │   ├── staging.py
-│   │   └── production.py
-│   ├── __init__.py
-│   ├── asgi.py
+│   ├── serializers.py
 │   ├── urls.py
-│   └── wsgi.py
+│   └── tests.py
+│
+├── document_processing/
+│   ├── migrations/
+│   │   └── __init__.py
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── views.py
+│   ├── tasks.py
+│   ├── urls.py
+│   ├── utils.py
+│   └── tests.py
+│
 ├── question_answering/
 │   ├── migrations/
 │   │   └── __init__.py
@@ -35,13 +37,27 @@ gpt-powered-ai-document-chatbot-creator/
 │   ├── admin.py
 │   ├── apps.py
 │   ├── models.py
-│   ├── tasks.py
 │   ├── views.py
-|   ├── urls.py
-│   └── utils.py
+│   ├── tasks.py
+│   ├── urls.py
+│   ├── utils.py
+│   └── tests.py
+│
+├── config/
+│   ├── settings/
+│   │   ├── __init__.py
+│   │   ├── common.py
+│   │   ├── local.py
+│   │   ├── staging.py
+│   │   └── production.py
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── urls.py
+│   └── wsgi.py
+│
 ├── manage.py
 ├── requirements.txt
-|── .gitignore
-|── example.env
-|── README.md
+├── .gitignore
+├── example.env
+├── README.md
 └── .env
