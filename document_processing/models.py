@@ -14,4 +14,4 @@ class Document(models.Model):
     pinecone_index_id = models.CharField(max_length=200)
 
     def __str__(self):
-        return f'{self.document_type} ({self.pinecone_index_id})'
+        return f'{self.source_type} ({self.pinecone_index_id})'
