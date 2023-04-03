@@ -21,6 +21,7 @@ schema_view = get_schema_view(
 )
 urlpatterns = [
                   path('admin/', admin.site.urls),
-                  path('api/', include('question_answering.urls'), name='api'),
+                  path('question_answering/', include('question_answering.urls')),
+                  path('chatbot_management/', include('chatbot_management.urls')),
                   path('auth/', include('authentication.urls'), name='auth'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
