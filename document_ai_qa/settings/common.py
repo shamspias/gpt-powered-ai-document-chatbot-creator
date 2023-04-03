@@ -212,7 +212,7 @@ LOGGING = {
 }
 
 # Custom user app
-AUTH_USER_MODEL = os.getenv('AUTH_USER_MODEL', 'authentication.User')
+# AUTH_USER_MODEL = os.getenv('AUTH_USER_MODEL', 'authentication.User')
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
