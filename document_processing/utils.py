@@ -1,9 +1,12 @@
 from langchain.document_loaders.csv_loader import CSVLoader
+from langchain.document_loaders.image import UnstructuredImageLoader
 from langchain.document_loaders import (
     PyPDFLoader,
     UnstructuredWordDocumentLoader,
     UnstructuredPowerPointLoader,
     UnstructuredURLLoader,
+    YoutubeLoader,
+    WebBaseLoader,
 )
 
 
@@ -44,22 +47,22 @@ def extract_text_from_file(file, source_type):
         list_text = data
 
     elif source_type in ['jpg', 'png', 'jpeg']:
-        loader = UnstructuredPowerPointLoader(file_path=file)
+        loader = UnstructuredImageLoader(file_path=file)
         data = loader.load()
         list_text = data
 
     elif source_type == 'url':
-        loader = UnstructuredPowerPointLoader(file_path=file)
+        loader = UnstructuredURLLoader(urls=file)
         data = loader.load()
         list_text = data
 
     elif source_type == 'website':
-        loader = UnstructuredPowerPointLoader(file_path=file)
+        loader = WebBaseLoader(web_path=file)
         data = loader.load()
         list_text = data
 
     elif source_type == 'youtube':
-        loader = UnstructuredPowerPointLoader(file_path=file)
+        loader = YoutubeLoader.from_youtube_channel(youtube_url=file, add_video_info=True)
         data = loader.load()
         list_text = data
     else:
