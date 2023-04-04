@@ -7,6 +7,7 @@ from langchain.document_loaders import (
     UnstructuredURLLoader,
     YoutubeLoader,
     WebBaseLoader,
+    TextLoader,
 )
 
 
@@ -36,8 +37,13 @@ def extract_text_from_file(file, source_type):
         data = loader.load()
         list_text = data
 
-    elif source_type == 'docx':
+    elif source_type == ['docx', 'doc']:
         loader = UnstructuredWordDocumentLoader(file_path=file)
+        data = loader.load()
+        list_text = data
+
+    elif source_type == 'txt':
+        loader = TextLoader(file_path=file)
         data = loader.load()
         list_text = data
 
